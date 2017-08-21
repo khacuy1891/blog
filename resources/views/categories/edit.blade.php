@@ -14,7 +14,7 @@
                             <label for="name" class="col-md-4 control-label">Name *</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="name" class="form-control" name="name"  value="{{$category->name}}" required autofocus>
+                                <input id="name" type="name" class="form-control" name="name"  value="{{$category->name}}">
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -27,9 +27,8 @@
                         <div class="form-group{{ $errors->has('icon') ? ' has-error' : '' }}">
                             <label for="icon" class="col-md-4 control-label">Icon *</label>
                             <div class="col-md-6">
-                                <input id="file_select" name="icon" type="file" style="">
-                                <img src="{{asset(config('path.icon').'/'.$category->icon)}}" id="image" name='icon' alt="HTML5 Icon" width="128" height="128">
-                                <a id="delete_icon" href='#'>Delete</a>
+                                <input id="icon_input" name="icon" type="file" accept=".gif,.jpg,.png,.bmp,.GIF,.JPG,.PNG,.BMP">
+                                <img src="{{asset(config('path.icon').'/'.$category->icon)}}" id="image" name='icon' width="128" height="128">
                             </div>
                         </div>
 
@@ -61,7 +60,7 @@
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">Save</button>
-                                <button type="reset" class="btn btn-default">Cancel</button>
+                                <a type="reset" class="btn btn-default" id='btn_cancel'>Cancel</a>
                             </div>
                         </div>
                     </form>
@@ -77,15 +76,15 @@
     function hiddenIcon()
     {
         $('#image').hide();
-        $('#delete_icon').hide();
-        $('#file_select').show();
+        //$('#delete_icon').hide();
+        //$('#icon_input').show();
     }
 
     function showIcon()
     {
         $('#image').show();
-        $('#delete_icon').show();
-        $('#file_select').hide();
+        //$('#delete_icon').show();
+        //$('#icon_input').hide();
     }
 
     function readURL(input) {
@@ -94,7 +93,6 @@
             reader.onload = function (e) {
                 $('#image').attr('src', e.target.result);
                 showIcon();
-                console.log('showIcon');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -107,13 +105,18 @@
         showIcon();
 	@endif
 
-    $("#file_select").change(function(){
+    $("#icon_input").change(function(){
         readURL(this);
     });
 
     $('#delete_icon').click( function() {
         hiddenIcon();
-        $("#file_select").val("");
+        $("#icon_input").val("");
     });
+	
+	$("#btn_cancel").click(function(){
+        window.history.back();
+    });
+	
 </script>
 @endsection

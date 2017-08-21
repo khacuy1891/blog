@@ -47,7 +47,7 @@ class CategoryController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'icon' => 'required',
+            'icon' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $input = $request->all();

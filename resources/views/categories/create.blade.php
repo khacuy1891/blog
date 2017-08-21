@@ -27,7 +27,7 @@
                         <div class="form-group{{ $errors->has('icon') ? ' has-error' : '' }}">
                             <label for="icon" class="col-md-4 control-label">Icon *</label>
                             <div class="col-md-6">
-                                <input id="file_select" name="icon" type="file" style="">
+                                <input id="icon_input" name="icon" type="file" accept=".gif,.jpg,.png,.bmp,.GIF,.JPG,.PNG,.BMP">
                                 <img src="#" id="image" name='icon' width="128" height="128">
                             </div>
                         </div>
@@ -78,14 +78,14 @@
     {
         $('#image').hide();
         //$('#delete_icon').hide();
-        //$('#file_select').show();
+        //$('#icon_input').show();
     }
 
     function showIcon()
     {
         $('#image').show();
         //$('#delete_icon').show();
-        //$('#file_select').hide();
+        //$('#icon_input').hide();
     }
 
     function readURL(input) {
@@ -93,7 +93,12 @@
             var reader = new FileReader();
             reader.onload = function (e) {
                 $('#image').attr('src', e.target.result);
-                showIcon();
+				var filename = $("#icon_input").val();
+				filename = filename.toLowerCase();
+				console.log(filename);
+				if (filename.match(/(?:gif|jpg|png|bmp)$/)) {
+					showIcon();
+				}
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -102,13 +107,14 @@
 
     hiddenIcon();
 
-    $("#file_select").change(function(){
+    $("#icon_input").change(function(){
         readURL(this);
     });
 
     $('#delete_icon').click( function() {
         hiddenIcon();
-        $("#file_select").val("");
+        $("#icon_input").val("");
     });
+		
 </script>
 @endsection

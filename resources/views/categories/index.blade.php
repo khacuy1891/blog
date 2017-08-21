@@ -7,6 +7,7 @@
 	<table class="table">
 		<thead>
 		  <tr>
+			<th>No</th>
 			<th>Id</th>
 			<th>Name</th>
 			<th>Icon</th>
@@ -16,8 +17,9 @@
 		</thead>
 		<tbody>
 		@if( $categories != null )
-			@foreach($categories as $category)
+			@foreach($categories as $key=>$category)
 			<tr>
+				<td>{{ $key + 1 }}</td>
 				<td>{{ $category->id }}</td>
 				<td>{{ $category->name }}</td>
 				<td>{{ $category->icon }}</td>
