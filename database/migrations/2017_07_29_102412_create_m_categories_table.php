@@ -17,9 +17,9 @@ class CreateMCategoriesTable extends Migration
             $table->increments('id')->index();
             $table->string('name', 255);
             $table->string('icon', 255);
-            $table->integer('indexing');
-            $table->text('description');
-            $table->integer('parent_id');
+            $table->integer('indexing')->nullable();
+            $table->text('description')->nullable();
+            $table->integer('parent_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
