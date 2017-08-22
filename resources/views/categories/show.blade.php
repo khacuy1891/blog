@@ -67,7 +67,7 @@
         </div>
     </div>
 	
-	<div class="fb-comments" data-href="{{Request::root()}}/categories/{{$category->id}}" data-numposts="10"></div>
+	<div class="fb-comments" data-href="{{Request::url()}}" data-numposts="10"></div>
 </div>
 @endsection
 
