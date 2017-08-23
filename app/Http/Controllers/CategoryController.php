@@ -15,11 +15,12 @@ class CategoryController extends Controller
     {
         $this->middleware('auth');
 		//Auth::logout();
+		$user = Auth::user();
+		View::share('user', $user);
     }
 
     public function index()
     {
-		$currentUser = Auth::user();
         $categories = Category::paginate(3);
 		
 		return view('categories.index', compact('categories'));
