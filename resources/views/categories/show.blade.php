@@ -73,6 +73,12 @@
 
 @section('script')
 <script>
+
+	$('li > a').click(function() {
+		$('li').removeClass();
+		$(this).parent().addClass('active');
+	});
+	
     function hiddenIcon()
     {
         $('#image').hide();

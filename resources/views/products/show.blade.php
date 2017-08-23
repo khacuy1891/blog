@@ -5,17 +5,15 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Edit Category</div>
+                <div class="panel-heading">Product</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data">
+                    <form class="form-horizontal" method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Name *</label>
-
                             <div class="col-md-6">
-                                <input id="name" type="name" class="form-control" name="name"  value="{{$category->name}}">
-
+                                <input id="name" type="name" class="form-control" name="name" value="{{$product->name}}" disabled="disabled" >
                                 @if ($errors->has('name'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('name') }}</strong>
@@ -23,44 +21,55 @@
                                 @endif
                             </div>
                         </div>
-
-                        <div class="form-group{{ $errors->has('icon') ? ' has-error' : '' }}">
-                            <label for="icon" class="col-md-4 control-label">Icon *</label>
+						
+						<div class="form-group">
+                            <label for="parent_id" class="col-md-4 control-label">Category:</label>
                             <div class="col-md-6">
-                                <input id="icon_input" name="icon" type="file" accept=".gif,.jpg,.png,.bmp,.GIF,.JPG,.PNG,.BMP">
-                                <img src="{{asset(config('path.icon').'/'.$category->icon)}}" id="image" name='icon' width="128" height="128">
+                                <select class="form-control" id="category_id" name="category_id" disabled="disabled">
+                                @foreach($categories as $key => $value)
+                                    <option value="{{ $key }}" {{ ($key == $product->category_id) ? "selected" : ""}}>{{ $value}}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+                            <label for="image" class="col-md-4 control-label">Image *</label>
+                            <div class="col-md-6">
+                                <!--input id="image_input" name="image" type="file" accept=".gif,.jpg,.png,.bmp,.GIF,.JPG,.PNG,.BMP" -->
+                                <img src="{{asset(config('path.icon').'/'.$product->image)}}" id="image" name='image' width="128" height="128">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="indexing" class="col-md-4 control-label">Indexing</label>
                             <div class="col-md-6">
-                                <input id="indexing" type="number" class="form-control" name="indexing"  value="{{$category->indexing}}">
+                                <input id="indexing" type="number" class="form-control" name="indexing" value="{{$product->indexing}}" disabled="disabled">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="description" class="col-md-4 control-label">Description</label>
                             <div class="col-md-6">
-                                <input id="description" type="text" class="form-control" name="description"  value="{{$category->description}}">
+                                <input id="description" type="text" class="form-control" name="description" value="{{$product->description}}"  disabled="disabled" >
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!--div class="form-group">
                             <label for="parent_id" class="col-md-4 control-label">Select list:</label>
                             <div class="col-md-6">
                                 <select class="form-control" id="parent_id" name="parent_id">
-                                @foreach($category_parents as $key => $value)
-                                    <option value="{{ $key }}" {{ ($key == $category->parent_id) ? "selected" : ""}}>{{ $value}}</option>
+                                @foreach($product_parents as $key => $value)
+                                    <option value="{{ $key }}">{{ $value}}</option>
                                 @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div-->
 
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">Save</button>
-                                <a type="reset" class="btn btn-default" id='btn_cancel'>Cancel</a>
+								<a href="{{ route('products.index') }}" class="btn btn-primary">Back</a>
+                                <a href="{{ route('products.edit', [$product->id]) }}" class="btn btn-default">Edit</a>
                             </div>
                         </div>
                     </form>
@@ -71,20 +80,21 @@
 </div>
 @endsection
 
+
 @section('script')
 <script>
     function hiddenIcon()
     {
         $('#image').hide();
-        //$('#delete_icon').hide();
-        //$('#icon_input').show();
+        //$('#delete_image').hide();
+        //$('#image_input').show();
     }
 
     function showIcon()
     {
         $('#image').show();
-        //$('#delete_icon').show();
-        //$('#icon_input').hide();
+        //$('#delete_image').show();
+        //$('#image_input').hide();
     }
 
     function readURL(input) {
@@ -92,31 +102,32 @@
             var reader = new FileReader();
             reader.onload = function (e) {
                 $('#image').attr('src', e.target.result);
-                showIcon();
+				var filename = $("#image_input").val();
+				filename = filename.toLowerCase();
+				console.log(filename);
+				if (filename.match(/(?:gif|jpg|png|bmp)$/)) {
+					showIcon();
+				}
             }
 
             reader.readAsDataURL(input.files[0]);
         }
     }
 
-    @if($category && !$category->icon)
+    @if($product && !$product->image)
 		hiddenIcon();
     @else
         showIcon();
 	@endif
 
-    $("#icon_input").change(function(){
+    $("#image_input").change(function(){
         readURL(this);
     });
 
-    $('#delete_icon').click( function() {
+    $('#delete_image').click( function() {
         hiddenIcon();
-        $("#icon_input").val("");
+        $("#image_input").val("");
     });
-	
-	$("#btn_cancel").click(function(){
-        window.history.back();
-    });
-	
+		
 </script>
 @endsection

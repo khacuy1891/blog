@@ -28,6 +28,7 @@ Route::get('/', function () {
 // Route::delete('categories/{$id}/delete', 'CategoryController@destroy')->name('categories.destroy');;
 Route::get('/categories/search', 'CategoryController@search')->name('categories.search');
 Route::resource('categories','CategoryController');
+Route::resource('products','ProductController');
 
 Auth::routes();
 

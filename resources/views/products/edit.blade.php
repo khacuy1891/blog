@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Edit Category</div>
+                <div class="panel-heading">Edit Product</div>
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
@@ -14,7 +14,7 @@
                             <label for="name" class="col-md-4 control-label">Name *</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="name" class="form-control" name="name"  value="{{$category->name}}">
+                                <input id="name" type="name" class="form-control" name="name"  value="{{$product->name}}">
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -28,21 +28,21 @@
                             <label for="icon" class="col-md-4 control-label">Icon *</label>
                             <div class="col-md-6">
                                 <input id="icon_input" name="icon" type="file" accept=".gif,.jpg,.png,.bmp,.GIF,.JPG,.PNG,.BMP">
-                                <img src="{{asset(config('path.icon').'/'.$category->icon)}}" id="image" name='icon' width="128" height="128">
+                                <img src="{{asset(config('path.icon').'/'.$product->icon)}}" id="image" name='icon' width="128" height="128">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="indexing" class="col-md-4 control-label">Indexing</label>
                             <div class="col-md-6">
-                                <input id="indexing" type="number" class="form-control" name="indexing"  value="{{$category->indexing}}">
+                                <input id="indexing" type="number" class="form-control" name="indexing"  value="{{$product->indexing}}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="description" class="col-md-4 control-label">Description</label>
                             <div class="col-md-6">
-                                <input id="description" type="text" class="form-control" name="description"  value="{{$category->description}}">
+                                <input id="description" type="text" class="form-control" name="description"  value="{{$product->description}}">
                             </div>
                         </div>
 
@@ -50,8 +50,8 @@
                             <label for="parent_id" class="col-md-4 control-label">Select list:</label>
                             <div class="col-md-6">
                                 <select class="form-control" id="parent_id" name="parent_id">
-                                @foreach($category_parents as $key => $value)
-                                    <option value="{{ $key }}" {{ ($key == $category->parent_id) ? "selected" : ""}}>{{ $value}}</option>
+                                @foreach($product_parents as $key => $value)
+                                    <option value="{{ $key }}" {{ ($key == $product->parent_id) ? "selected" : ""}}>{{ $value}}</option>
                                 @endforeach
                                 </select>
                             </div>
@@ -99,7 +99,7 @@
         }
     }
 
-    @if($category && !$category->icon)
+    @if($product && !$product->icon)
 		hiddenIcon();
     @else
         showIcon();
