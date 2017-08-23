@@ -22,24 +22,21 @@ class CategoryController extends Controller
 		$currentUser = Auth::user();
         $categories = Category::paginate(3);
 		
-		return view::make('categories.index', [
-			'categories'	=> $categories
-			//'currentUser'	=> $currentUser
-		]);
-        
-		//return view('categories.index', compact('categories'));
+		return view('categories.index', compact('categories'));
     }
 
     public function search(Request $request)
     {
         $key_search = $request->input('key_search');
         $categories = null;
-        
+		
         if($key_search) {
-            $categories = Category::where('name', 'LIKE', '%' . $key_search. '%')->get();
+            $categories = Category::where('name', 'LIKE', '%' . $key_search. '%')->paginate(3);
         } else {
-            $categories = Category::all();
+            $categories = Category::paginate(3);
         }
+		
+		$categories->appends(['key_search' => $key_search]);
 
         return view('categories.index', compact('categories', 'key_search'));
     }
