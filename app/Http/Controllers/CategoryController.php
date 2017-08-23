@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use App\Models\Category;
 use File;
 
@@ -18,8 +19,15 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = Category::all();
-        return view('categories.index', compact('categories'));
+		$currentUser = Auth::user();
+        $categories = Category::paginate(3);
+		
+		return view::make('categories.index', [
+			'categories'	=> $categories
+			//'currentUser'	=> $currentUser
+		]);
+        
+		//return view('categories.index', compact('categories'));
     }
 
     public function search(Request $request)

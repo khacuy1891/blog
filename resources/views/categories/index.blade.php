@@ -38,12 +38,17 @@
 		@endif
 		</tbody>
 	</table>
-	<div class="fb-like"
-		data-share="true"
-		data-width="450"
-		data-show-faces="true">
-	</div>
-	<div id="fb-root"></div>
+	<div class="form-group" align="center">
+		{{ $categories->links() }}
+    </div>
+	<div class="form-group">
+		<div class="fb-like"
+			data-share="true"
+			data-width="450"
+			data-show-faces="true">
+		</div>
+		<div id="fb-root"></div>
+    </div>
 </div>
 @endsection
 
@@ -71,7 +76,7 @@
 		var js, fjs = d.getElementsByTagName(s)[0];
 		if (d.getElementById(id)) return;
 		js = d.createElement(s); js.id = id;
-		js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.10";
+		js.src = "//connect.facebook.net/vi_VN/sdk.js";
 		fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));*/
 </script>
