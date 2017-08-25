@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('page-title', 'Category')
 
 @section('content')
 <div class="container">
@@ -42,13 +43,34 @@
 		{{ $categories->links() }}
     </div>
 	<div class="form-group">
-		<div class="fb-like"
+		<!--div class="fb-like"
 			data-share="true"
 			data-width="450"
 			data-show-faces="true">
 		</div>
-		<div id="fb-root"></div>
+		<div id="fb-root"></div-->
+		<div class="fb-like" 
+			data-href="{{Request::url()}}"
+			data-layout="button_count"
+			data-size="small"
+			data-action="like"
+			data-show-faces="true" >
+		</div>
+		<div class="fb-share-button"
+			data-href="{{Request::url()}}"
+			data-layout="button_count"
+			data-size="small"
+			data-mobile-iframe="true">
+		</div>
     </div>
+	<div class="form-group" align="center">
+		<div class="fb-comments"
+			data-href="{{Request::url()}}"
+			data-width="100%"
+			data-numposts="5" >
+		</div>
+    </div>
+</div>
 </div>
 @endsection
 

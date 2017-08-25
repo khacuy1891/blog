@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('page-title', 'Create Product')
 
 @section('content')
 <div class="container">

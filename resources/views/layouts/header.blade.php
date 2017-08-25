@@ -1,7 +1,7 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">WebSiteName</a>
+      <a class="navbar-brand" href="{{ route('home') }}">Home</a>
     </div>
     <ul class="nav navbar-nav">
       <li class="{{ Request::is('products*')? 'active' : ''}}"><a href="{{ route('products.index') }}">Product</a></li>

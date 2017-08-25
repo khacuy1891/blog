@@ -15,21 +15,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/category', 'CategoryController@index');
+//$user = Auth::user();
+//View::share('user', $user);
 
-// Route::get('/category/add', 'CategoryController@add');
+/*
+Route::get('/categories', 'CategoryController@index')->name('categories.index');
+Route::get('/categories/create', 'CategoryController@create')->name('categories.create');
+Route::get('/categories/store', 'CategoryController@store')->name('categories.store');
+Route::get('/categories/edit/{category}', 'CategoryController@edit')->name('categories.edit');
+Route::get('/categories/{category}', 'CategoryController@show')->name('categories.show');
+Route::patch('/categories/update', 'CategoryController@update')->name('categories.update');
 
-// Route::get('/category/edit/{$id}', 'CategoryController@edit')->name('categories.edit');
+Route::delete('categories/{category}/delete', 'CategoryController@destroy')->name('categories.destroy');
+*/
 
-// Route::get('/category/show/{$id}', 'CategoryController@edit')->name('categories.show');
-
-// Route::patch('/category/update', 'CategoryController@update')->name('categories.update');;
-
-// Route::delete('categories/{$id}/delete', 'CategoryController@destroy')->name('categories.destroy');;
 Route::get('/categories/search', 'CategoryController@search')->name('categories.search');
-Route::resource('categories','CategoryController');
+Route::resource('categories', 'CategoryController');
+
+
 Route::resource('products','ProductController');
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
