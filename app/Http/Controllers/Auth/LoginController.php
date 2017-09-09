@@ -36,4 +36,18 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-}
+	
+	public function login(Request $request)
+	{
+		$field = filter_var($request->usernameOrEmail, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+		$request->merge([$field => $request->usernameOrEmail]);
+
+		if (auth()->attempt($request->only($field, 'password')))
+		{
+			return redirect('/');
+		}
+
+		return redirect('login')->withErrors([
+			'error' => 'These credentials do not match our records.',
+		]);
+	}

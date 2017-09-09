@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
 	<h2>Category</h2>
-	<a href="{{ url('/categories/create')}}">Add Category</a> 
+	<a href="{{ route('admin.categories.create') }}">Add Category</a> 
 	<table class="table">
 		<thead>
 		  <tr>
@@ -26,10 +26,10 @@
 				<td>{{ $category->icon }}</td>
 				<td>{{ $category->parent_id }}</td>
 				<td>
-					{!! Form::open(['route' => ['categories.destroy', $category->id], 'method' => 'delete']) !!}
+					{{ Form::open(['route' => ['admin.categories.destroy', $category->id], 'method' => 'delete']) }}
 					<div class='btn-group'>
-						<a href="{{ route('categories.show', [$category->id]) }}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-						<a href="{{ route('categories.edit', [$category->id]) }}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
+						<a href="{{ route('admin.categories.show', [$category->id]) }}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
+						<a href="{{ route('admin.categories.edit', [$category->id]) }}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
 						{!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
 					</div>
 					{!! Form::close() !!}
@@ -40,7 +40,7 @@
 		</tbody>
 	</table>
 	<div class="form-group" align="center">
-		{{ $categories->links() }}
+		{{ $categories->appends(['key_search' => $key_search])->links() }}
     </div>
 	<div class="form-group">
 		<!--div class="fb-like"

@@ -1,22 +1,20 @@
 @extends('layouts.app')
-@section('page-title', 'Add Category')
+@section('page-title', 'Create Product')
 
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Add Category</div>
+                <div class="panel-heading">Add Product</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data">
+                    <form class="form-horizontal" method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Name *</label>
-
                             <div class="col-md-6">
                                 <input id="name" type="name" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
-
                                 @if ($errors->has('name'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('name') }}</strong>
@@ -24,12 +22,23 @@
                                 @endif
                             </div>
                         </div>
-
-                        <div class="form-group{{ $errors->has('icon') ? ' has-error' : '' }}">
-                            <label for="icon" class="col-md-4 control-label">Icon *</label>
+						
+						<div class="form-group">
+                            <label for="parent_id" class="col-md-4 control-label">Select gategory:</label>
                             <div class="col-md-6">
-                                <input id="icon_input" name="icon" type="file" accept=".gif,.jpg,.png,.bmp,.GIF,.JPG,.PNG,.BMP">
-                                <img src="#" id="image" name='icon' width="128" height="128">
+                                <select class="form-control" id="category_id" name="category_id">
+                                @foreach($categories as $key => $value)
+                                    <option value="{{ $key }}">{{ $value}}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+                            <label for="image" class="col-md-4 control-label">Image *</label>
+                            <div class="col-md-6">
+                                <input id="icon_input" name="image" type="file" accept=".gif,.jpg,.png,.bmp,.GIF,.JPG,.PNG,.BMP">
+                                <img src="#" id="image" name='image' width="128" height="128">
                             </div>
                         </div>
 
@@ -48,10 +57,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="parent_id" class="col-md-4 control-label">Select list:</label>
+                            <label for="parent_id" class="col-md-4 control-label">Select product:</label>
                             <div class="col-md-6">
                                 <select class="form-control" id="parent_id" name="parent_id">
-                                @foreach($category_parents as $key => $value)
+                                @foreach($product_parents as $key => $value)
                                     <option value="{{ $key }}">{{ $value}}</option>
                                 @endforeach
                                 </select>

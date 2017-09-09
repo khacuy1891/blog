@@ -1,20 +1,21 @@
 @extends('layouts.app')
+@section('page-title', 'Add Category')
 
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Edit Product</div>
+                <div class="panel-heading">Add Category</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data">
+                    <form class="form-horizontal" method="POST" action="{{ route('admin.categories.store') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Name *</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="name" class="form-control" name="name"  value="{{$product->name}}">
+                                <input id="name" type="name" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -28,21 +29,21 @@
                             <label for="icon" class="col-md-4 control-label">Icon *</label>
                             <div class="col-md-6">
                                 <input id="icon_input" name="icon" type="file" accept=".gif,.jpg,.png,.bmp,.GIF,.JPG,.PNG,.BMP">
-                                <img src="{{asset(config('path.icon').'/'.$product->icon)}}" id="image" name='icon' width="128" height="128">
+                                <img src="#" id="image" name='icon' width="128" height="128">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="indexing" class="col-md-4 control-label">Indexing</label>
                             <div class="col-md-6">
-                                <input id="indexing" type="number" class="form-control" name="indexing"  value="{{$product->indexing}}">
+                                <input id="indexing" type="number" class="form-control" name="indexing" value="">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="description" class="col-md-4 control-label">Description</label>
                             <div class="col-md-6">
-                                <input id="description" type="text" class="form-control" name="description"  value="{{$product->description}}">
+                                <input id="description" type="text" class="form-control" name="description" value="">
                             </div>
                         </div>
 
@@ -50,8 +51,8 @@
                             <label for="parent_id" class="col-md-4 control-label">Select list:</label>
                             <div class="col-md-6">
                                 <select class="form-control" id="parent_id" name="parent_id">
-                                @foreach($product_parents as $key => $value)
-                                    <option value="{{ $key }}" {{ ($key == $product->parent_id) ? "selected" : ""}}>{{ $value}}</option>
+                                @foreach($category_parents as $key => $value)
+                                    <option value="{{ $key }}">{{ $value}}</option>
                                 @endforeach
                                 </select>
                             </div>
@@ -59,8 +60,8 @@
 
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">Save</button>
-                                <a type="reset" class="btn btn-default" id='btn_cancel'>Cancel</a>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                                <button type="reset" class="btn btn-default">Cancel</button>
                             </div>
                         </div>
                     </form>
@@ -70,6 +71,7 @@
     </div>
 </div>
 @endsection
+
 
 @section('script')
 <script>
@@ -92,18 +94,19 @@
             var reader = new FileReader();
             reader.onload = function (e) {
                 $('#image').attr('src', e.target.result);
-                showIcon();
+				var filename = $("#icon_input").val();
+				filename = filename.toLowerCase();
+				console.log(filename);
+				if (filename.match(/(?:gif|jpg|png|bmp)$/)) {
+					showIcon();
+				}
             }
 
             reader.readAsDataURL(input.files[0]);
         }
     }
 
-    @if($product && !$product->icon)
-		hiddenIcon();
-    @else
-        showIcon();
-	@endif
+    hiddenIcon();
 
     $("#icon_input").change(function(){
         readURL(this);
@@ -113,10 +116,6 @@
         hiddenIcon();
         $("#icon_input").val("");
     });
-	
-	$("#btn_cancel").click(function(){
-        window.history.back();
-    });
-	
+		
 </script>
 @endsection
